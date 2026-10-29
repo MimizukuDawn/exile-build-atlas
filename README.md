@@ -7,4 +7,4 @@
 That link always shows the latest version. If you saved a copy of the page, it tells you when a newer one is out.
 This repo only holds the published page (`index.html`) and `version.json`; it is updated automatically.
 
-Last update: 2026-10-29 (version `5ae18525ec6a`).
+Last update: 2026-10-29 (version `ea3a8fc23597`).
