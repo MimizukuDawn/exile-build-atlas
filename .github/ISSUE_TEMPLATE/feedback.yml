@@ -1,0 +1,47 @@
+name: Feedback, idea or build / Retour, idée ou build
+description: Feedback on a build or on the atlas, a feature request, or your own build to import. Read and reviewed by mimi before anything is added.
+title: "[Feedback] "
+labels: [feedback]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Easier: use the **Feedback** button on the atlas page (https://mimizukudawn.github.io/exile-build-atlas/), it fills this in for you.
+        Plus simple : le bouton **Retours** sur la page de l'atlas remplit tout pour vous.
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options: [Build feedback, Tool feedback or bug, Feature request, Submit my build, Other]
+    validations: {required: true}
+  - type: input
+    id: build
+    attributes:
+      label: Build
+      description: Build id or name (e.g. JUG-015), if it is about a build.
+  - type: dropdown
+    id: tags
+    attributes:
+      label: Tags
+      multiple: true
+      options: [score-too-high, score-too-low, numbers-wrong, tankiness, damage, bossing, mapping, valdo, abyss, budget, league-start, pob-link, outdated, bug, slow, mobile, readability, search-filters, planner, farming-tab, translation, data-wrong, new-filter, new-tab, new-data, compare-builds, export, poe2, ssf, hardcore, minion, unique-build, question, thanks]
+  - type: input
+    id: custom
+    attributes:
+      label: Custom tags
+      description: Your own tags, comma separated.
+  - type: textarea
+    id: message
+    attributes:
+      label: Message
+    validations: {required: true}
+  - type: input
+    id: pob
+    attributes:
+      label: PoB link
+      description: pobb.in link or PoB code (needed to submit a build).
+  - type: input
+    id: credit
+    attributes:
+      label: Credit
+      description: Name to credit (optional).

@@ -7,4 +7,7 @@
 That link always shows the latest version. If you saved a copy of the page, it tells you when a newer one is out.
 This repo only holds the published page (`index.html`) and `version.json`; it is updated automatically.
 
-Last update: 2026-10-29 (version `3ae208ec3c41`).
+**Feedback, ideas, your own builds:** press the Feedback button on the page (or on any build card). Every request is read and
+reviewed by mimi before anything is added; similar requests are grouped. You can also open an issue here.
+
+Last update: 2026-10-29 (version `b57ebaf60309`).
