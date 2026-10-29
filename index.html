@@ -2,7 +2,7 @@
 <html lang="en">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>.optb,.optm{display:none!important}#atlas-upd{position:sticky;top:0;z-index:99;padding:10px 16px;background:#2d6cdf;color:#fff;font:600 14px/1.4 system-ui,sans-serif;text-align:center}#atlas-upd a{color:#fff;text-decoration:underline}</style>
-<script>(()=>{const V="f6d6249fb723",S="https://mimizukudawn.github.io/exile-build-atlas/";if(location.href.startsWith(S))return;fetch(S+'version.json',{cache:'no-store'}).then(r=>r.json()).then(j=>{if(!j||j.version===V)return;const d=document.createElement('div');d.id='atlas-upd';d.innerHTML='A newer atlas is out (updated '+(j.updated||'recently')+'). <a href="'+S+'">Open the latest</a>';document.body.prepend(d)}).catch(()=>{})})();</script>
+<script>(()=>{const V="2a0310b37818",S="https://mimizukudawn.github.io/exile-build-atlas/";if(location.href.startsWith(S))return;fetch(S+'version.json',{cache:'no-store'}).then(r=>r.json()).then(j=>{if(!j||j.version===V)return;const d=document.createElement('div');d.id='atlas-upd';d.innerHTML='A newer atlas is out (updated '+(j.updated||'recently')+'). <a href="'+S+'">Open the latest</a>';document.body.prepend(d)}).catch(()=>{})})();</script>
 <meta charset="utf-8">
 <title>Exile Build Atlas</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -610,9 +610,11 @@ const TL={'score-too-high':['score too high','note trop haute'],'score-too-low':
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const tag=s=>String(s).toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9+ -]/g,'').trim().replace(/\s+/g,'-').slice(0,24);
 const st=document.createElement('style');st.textContent=`
-#fb-fab{position:fixed;right:16px;bottom:16px;z-index:98;font:600 15px/1 var(--f-body,system-ui,sans-serif);padding:12px 18px;border-radius:999px;border:0;background:var(--accent,#8f5310);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer}
+#fb-fab{position:fixed;right:16px;bottom:16px;z-index:98;width:44px;height:44px;padding:0;font-size:20px;line-height:1;border-radius:999px;border:0;background:var(--accent,#8f5310);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer}
 #fb-fab:hover{filter:brightness(1.1)}
-.fbb{font:inherit;padding:6px 12px;border-radius:6px;border:1px solid var(--accent,#8f5310);background:transparent;color:inherit;cursor:pointer;margin:8px 0}
+details.b[data-id]>summary{position:relative}
+.fbb{position:absolute;top:6px;left:6px;width:24px;height:24px;padding:0;display:grid;place-items:center;font-size:12px;line-height:1;border-radius:999px;border:1px solid var(--line,#ccc);background:var(--panel,#fff);color:inherit;cursor:pointer;opacity:.6}
+.fbb:hover,.fbb:focus-visible{opacity:1;border-color:var(--accent,#8f5310)}
 #fb-dlg{border:1px solid var(--line,#ccc);border-radius:12px;padding:0;width:min(640px,calc(100vw - 32px));max-height:calc(100vh - 32px);background:var(--panel,#fff);color:var(--fg,#111);font:15px/1.45 var(--f-body,system-ui,sans-serif)}
 #fb-dlg::backdrop{background:rgba(0,0,0,.45)}
 #fb-dlg form{padding:18px 20px 20px;display:grid;gap:12px}
@@ -641,7 +643,7 @@ document.head.appendChild(st);
 const fab=document.createElement('button');fab.id='fb-fab';fab.type='button';
 const dlg=document.createElement('dialog');dlg.id='fb-dlg';
 let S={cat:'build',tags:new Set(),build:''};
-function draw(){const t=T[L];fab.textContent='💬 '+t.btn;
+function draw(){const t=T[L];fab.textContent='💬';fab.title=fab.ariaLabel=t.title;
  dlg.innerHTML=`<form method="dialog" novalidate>
 <h2><span>${esc(t.title)}</span><span class="lng" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="${L==='en'}">EN</button> <button type="button" data-lang="fr" aria-pressed="${L==='fr'}">FR</button></span><button type="button" class="x" data-close aria-label="${esc(t.close)}">✕</button></h2>
 <p class="note">${esc(t.notice)}</p>
@@ -690,12 +692,12 @@ dlg.addEventListener('submit',async e=>{e.preventDefault();const t=T[L],how=(e.s
   if(!r.ok||!j.ok)throw new Error(j.error||r.status);say(t.ok+(j.number?' (#'+j.number+')':'')+'.','good');dlg.querySelectorAll('textarea,input[type=text]').forEach(i=>i.value='');}
  catch(err){say(t.err,'bad')}});
 fab.addEventListener('click',()=>open());
-document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.fbb');if(!b)return;e.preventDefault();open(b.dataset.cat||'build',b.dataset.build||'')});
-// One button per build card, added when its sheet is filled (cards are built lazily).
-function addCardButtons(root){(root.querySelectorAll?root:document).querySelectorAll('details.b[data-id]>.sheet:not([data-lz]):not([data-fb])').forEach(sh=>{const d=sh.parentElement,n=d.querySelector(':scope>summary .n');sh.dataset.fb='1';
- const b=document.createElement('button');b.type='button';b.className='fbb';b.dataset.build=d.dataset.id+' · '+(n?n.textContent:'');b.textContent='💬 '+T[L].onBuild;sh.prepend(b)})}
-let fbq=0;new MutationObserver(()=>{if(fbq)return;fbq=requestAnimationFrame(()=>{fbq=0;addCardButtons(document)})}).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['data-lz']});
-const start=()=>{draw();document.body.appendChild(fab);document.body.appendChild(dlg);addCardButtons(document);if(/[#&]feedback\b/.test(location.hash))open()};
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.fbb');if(!b)return;e.preventDefault();e.stopPropagation();open(b.dataset.cat||'build',b.dataset.build||'')});
+// A small icon in the top-left corner of each card header (absolute: the card layout does not move), cards are rendered in batches so new ones are watched for.
+function addCardButtons(){document.querySelectorAll('details.b[data-id]>summary:not([data-fb])').forEach(sm=>{const d=sm.parentElement,n=sm.querySelector('.n');sm.dataset.fb='1';if(!n)return;
+ const b=document.createElement('button');b.type='button';b.className='fbb';b.dataset.build=d.dataset.id+' · '+n.textContent;b.title=b.ariaLabel=T[L].onBuild;b.textContent='💬';sm.prepend(b)})}
+let fbq=0;new MutationObserver(()=>{if(fbq)return;fbq=requestAnimationFrame(()=>{fbq=0;addCardButtons()})}).observe(document.documentElement,{subtree:true,childList:true});
+const start=()=>{draw();document.body.appendChild(fab);document.body.appendChild(dlg);addCardButtons();if(/[#&]feedback\b/.test(location.hash))open()};
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',start):start();
 })();
 </script>
