@@ -10,4 +10,4 @@ This repo only holds the published page (`index.html`) and `version.json`; it is
 **Feedback, ideas, your own builds:** press the Feedback button on the page (or on any build card). Every request is read and
 reviewed by mimi before anything is added; similar requests are grouped. You can also open an issue here.
 
-Last update: 2026-11-12 (version `3e913c8b70e8`).
+Last update: 2026-11-13 (version `ae29a77928b1`).
